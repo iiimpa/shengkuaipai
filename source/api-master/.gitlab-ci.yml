@@ -1,0 +1,42 @@
+stages:
+  - publish
+  - build
+  - deploy
+
+dotnet:
+  stage: publish
+  image: mcr.microsoft.com/dotnet/core/sdk:3.1-alpine
+  script:
+    - dotnet publish -c release -o dist
+  artifacts:
+    name: API-($CI_PIPELINE_ID)
+    paths:
+      - dist
+
+docker:
+  stage: build
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+    - docker push $CI_REGISTRY_IMAGE:latest
+  dependencies:
+    - dotnet
+
+production:
+  stage: deploy
+  image: simcu/k8s-deploy
+  variables:
+    GIT_STRATEGY: none
+    PLUGIN_NAMESPACE: ${CI_PROJECT_NAMESPACE}
+    PLUGIN_NAME: ${CI_PROJECT_NAME}
+    PLUGIN_ENVIROMENT: ${CI_ENVIRONMENT_SLUG}
+    PLUGIN_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}
+    PLUGIN_PORT: 80
+    PLUGIN_URL: api.skp.zhoushijt.com
+  script:
+    - dotnet /app/Emilia.dll
+  environment:
+    name: production
+    url: http://api.skp.zhoushijt.com

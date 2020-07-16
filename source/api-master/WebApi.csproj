@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+        <ApplicationIcon />
+        <OutputType>Exe</OutputType>
+        <StartupObject></StartupObject>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.1"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
+      <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.0" />
+      <PackageReference Include="YY-Tech.YYApi" Version="0.2.2" />
+      <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="3.1.1" />
+      <PackageReference Include="AlipaySDKNet.Standard" Version="4.2.13" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Community\" />
+      <Folder Include="Properties\" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="WebApi.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Remove="Properties\launchSettings.json" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Update="Properties\launchSettings.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+    <ProjectExtensions>
+      <MonoDevelop>
+        <Properties>
+          <Policies>
+            <DotNetNamingPolicy ResourceNamePolicy="FileFormatDefault" DirectoryNamespaceAssociation="PrefixedHierarchical" />
+          </Policies>
+        </Properties>
+      </MonoDevelop>
+    <VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+</Project>

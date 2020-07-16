@@ -1,0 +1,47 @@
+stages:
+  - package
+  - build
+  - deploy
+yarn:
+  stage: package
+  image: node
+  script:
+    - npm install --registry https://registry.npm.taobao.org/
+    - yarn build
+  artifacts:
+    name: dist-($CI_PIPELINE_ID)
+    paths:
+      - dist
+
+
+build:
+  stage: build
+  script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID .
+    - docker tag $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID $CI_REGISTRY_IMAGE:latest
+    - docker push $CI_REGISTRY_IMAGE:$CI_PIPELINE_ID
+    - docker push $CI_REGISTRY_IMAGE:latest
+
+production:
+  stage: deploy
+  image: simcu/k8s-deploy
+  variables:
+    GIT_STRATEGY: none
+    PLUGIN_NAMESPACE: ${CI_PROJECT_NAMESPACE}
+    PLUGIN_NAME: ${CI_PROJECT_NAME}
+    PLUGIN_ENVIROMENT: ${CI_ENVIRONMENT_SLUG}
+    PLUGIN_IMAGE: ${CI_REGISTRY_IMAGE}:${CI_PIPELINE_ID}
+    PLUGIN_CPU: 500m
+    PLUGIN_MEM: 512Mi
+    PLUGIN_RSVP: "false"
+    PLUGIN_PORT: 80
+    PLUGIN_URL: admin.skp.zhoushijt.com
+    PLUGIN_ACME: "false"
+    PLUGIN_REGISTRY_SECRET: zhoushijt
+    DEBUG: "true"
+  script:
+    - dotnet /app/Emilia.dll
+  environment:
+    name: production
+    url: http://skp.zhoushijt.com

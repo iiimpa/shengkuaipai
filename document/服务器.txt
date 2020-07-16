@@ -1,0 +1,39 @@
+AccessKey_ID:LTAI4GDWwkW9YB3VgqWKxYDD
+Access_Key_Secret:hFwhcAxsBI9sM8nzI9w1OvEgQf41mD
+
+ip:39.100.152.144
+ID: i-8vben21m59xlakpf9b4w
+pwd:AXSD147258XCsa.a
+
+ip:39.98.116.38
+ID:i-8vben21m59xlakpf9b4y
+pwd:SDFG4521sSD.Q
+
+ip:39.100.252.107
+ID:i-8vben21m59xlakpf9b4x
+pwd:JKsc154SE1.SY2
+
+ip:203.189.237.169
+pwd:wxB4r2AQdx
+
+admin account:xe140048
+admin pwd:123456
+
+usr account:140048
+usr pwd:123456
+
+proxy account:shengkuaipai
+proxy owd:shengkuaipai
+
+Docker Registry Pwd:
+JDUnfgl35.a
+
+MySql:
+server=rm-8vbtx34235g096d84.mysql.zhangbei.rds.aliyuncs.com;
+database=skp;
+uid=seo;
+pwd=Seo@1314;
+
+my server
+ip:175.24.53.228
+pwd:JASvuiw5275.V
